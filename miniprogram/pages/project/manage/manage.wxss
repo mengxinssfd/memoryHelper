@@ -1,0 +1,44 @@
+.pg-playing {
+  padding: 10px;
+}
+.pg-playing .picker {
+  margin-bottom: 10px;
+}
+.pg-playing .setting {
+  margin-bottom: 10px;
+  background: rgba(0,0,0,0.05);
+  padding: 6px;
+}
+.pg-playing .setting .content {
+  padding: 6px;
+  font-size: 0.8em;
+}
+.pg-playing .setting .content .item {
+  margin-top: 6px;
+}
+.pg-playing .setting .content .item radio {
+  margin-left: 6px;
+  width: 10px;
+  height: 10px;
+}
+.pg-playing .setting .content .item.total-time,
+.pg-playing .setting .content .item.time {
+  display: flex;
+  align-items: center;
+}
+.pg-playing .setting .content .item.total-time label,
+.pg-playing .setting .content .item.time label {
+  flex: 1;
+}
+.pg-playing .setting .content .item.total-time input,
+.pg-playing .setting .content .item.time input {
+  flex: 1;
+  margin-left: 6px;
+  border-bottom: 1px solid #fff;
+  text-indent: 6px;
+}
+.pg-playing button {
+  width: 100% !important;
+  margin-bottom: 10px;
+}
+

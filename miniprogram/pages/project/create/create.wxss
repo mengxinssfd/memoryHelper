@@ -1,0 +1,22 @@
+.pg-create {
+  padding: 10px;
+}
+.pg-create .block {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #808080;
+}
+.pg-create .block .del {
+  float: right;
+  color: #f00;
+}
+.pg-create .text-area {
+  box-sizing: border-box;
+  width: 100%;
+}
+.pg-create .text-area-box {
+  padding: 0 10px;
+}
+.pg-create .btn-area button {
+  width: 100%;
+}
+

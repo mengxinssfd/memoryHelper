@@ -1,0 +1,71 @@
+<view class="pg-playing">
+    <play
+            wx:if="{{showPlay}}"
+            questionList="{{questionList}}"
+            setting="{{setting}}"
+            bindclose="onTapStart"
+    ></play>
+    <q-selector
+            wx:if="{{showSelect}}"
+            questionList="{{questionList}}"
+            bindclose="selectorSwitch"
+            bindfinish="onSelectorFinish"
+    ></q-selector>
+    <!--<picker
+            bindchange="bindPickerChange"
+            value="{{pickedPlayModeListIndex}}"
+            range="{{playModeList}}"
+            range-key="value"
+    >
+        <view class="picker">
+            当前模式：{{playModeList[pickedPlayModeListIndex].value}}
+        </view>
+    </picker>-->
+    <block wx:if="{{showCustom}}">
+        <view class="setting">
+            自定义配置：
+            <view class="content">
+                <view class="item">
+                    <label bindtap="onTapSetting" data-key="canJump">可跳过
+                        <radio checked="{{setting.canJump}}"></radio>
+                    </label>
+                </view>
+                <view class="item">
+                    <label bindtap="onTapSetting" data-key="canShowAnswer">可显示答案
+                        <radio checked="{{setting.canShowAnswer}}"></radio>
+                    </label>
+                </view>
+                <view class="item">
+                    <label bindtap="onTapSetting" data-key="isReverse">问题答案反转
+                        <radio checked="{{setting.isReverse}}"></radio>
+                    </label>
+                </view>
+               <!-- <view class="item time">
+                    <label>单题答题时间(单位:秒)
+                    </label>
+                    <input
+                            data-key="time"
+                            value="{{setting.time}}"
+                            type="number"
+                            bindinput="onInputSetting"
+                    />
+                </view>
+                <view class="item total-time">
+                    <label>答题总时间(单位:秒)
+                    </label>
+                    <input
+                            data-key="totalTime"
+                            value="{{setting.totalTime}}"
+                            type="number"
+                            bindinput="onInputSetting"
+                    />
+                </view>-->
+            </view>
+        </view>
+    </block>
+
+    <button type="primary" bindtap="onTapStart">开始</button>
+    <button bindtap="selectorSwitch">勾选</button>
+    <button bindtap="onTapUpdate">编辑</button>
+    <button bindtap="onTapDelete">删除</button>
+</view>

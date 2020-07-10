@@ -1,0 +1,14 @@
+<!--index.wxml-->
+<view class="pg-index">
+    <view class="item" wx:for="{{memory}}" wx:key="index" data-index="{{index}}" bindtap="tapItem">
+        <text>{{index+1}}</text>
+        <view class="content">
+            {{item.title}}
+        </view>
+
+    </view>
+    <view class="create" bindtap="toCreatePage">
+        <view class="one"></view>
+        <view class="two"></view>
+    </view>
+</view>

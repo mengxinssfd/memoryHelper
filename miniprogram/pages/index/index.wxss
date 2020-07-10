@@ -1,0 +1,42 @@
+.pg-index {
+  padding-bottom: 130px;
+}
+.pg-index .item {
+  padding: 10px;
+  border-bottom: 1px solid transparent;
+  background: rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+}
+.pg-index .item:nth-child(odd) {
+  background: rgba(0,0,0,0.1);
+}
+.pg-index .item .content {
+  margin: 0 8px;
+}
+.pg-index .create {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 50px;
+  background: #faebd7;
+  border-radius: 50%;
+}
+.pg-index .create .one,
+.pg-index .create .two {
+  position: absolute;
+  left: 20%;
+  width: 60%;
+  height: 10%;
+  background: #ff9e72;
+  top: 50%;
+}
+.pg-index .create .one {
+  transform: translateY(-50%);
+}
+.pg-index .create .two {
+  transform: translateY(-50%) rotate(90deg);
+}
+

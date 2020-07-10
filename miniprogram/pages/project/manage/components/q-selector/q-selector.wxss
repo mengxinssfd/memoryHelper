@@ -1,0 +1,41 @@
+.q-select {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  padding-top: 10px;
+}
+.q-select .list-area {
+  padding: 0 10px;
+  overflow-y: auto;
+}
+.q-select .list-area .q-item {
+  position: relative;
+  padding: 10px;
+  border-bottom: 1px solid #fffeee;
+  background: rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+}
+.q-select .list-area .q-item:nth-child(odd) {
+  background: rgba(0,0,0,0.1);
+}
+.q-select .list-area .q-item text {
+  font-size: 0.6em;
+}
+.q-select .list-area .q-item view {
+  flex: 1;
+  margin: 0 8px;
+  font-size: 0.8em;
+}
+.q-select .btn-area {
+  flex: 1;
+  width: 100%;
+  padding-top: 10px;
+}
+

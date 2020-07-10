@@ -1,0 +1,27 @@
+<view class="q-select">
+    <view class="list-area">
+        <block wx:for="{{qList}}" wx:key="index">
+            <view bindtap="bindCheckedChange" class="q-item" data-index="{{index}}">
+                <text>{{index+1}}</text>
+                <view class="content">
+                    <view>
+                        问：{{item.question}}
+                    </view>
+                    <view>
+                        答：{{item.answer}}
+                    </view>
+                    <view>
+                        描述：{{item.desc?item.desc:'无'}}
+                    </view>
+                </view>
+                <checkbox checked="{{!item.isUnChecked}}"></checkbox>
+            </view>
+        </block>
+    </view>
+    <view class="btn-area">
+        <button data-type="all" bindtap="bindCheckAll">全选</button>
+        <button data-type="clear" bindtap="bindCheckAll">全不选</button>
+        <button bindtap="onOk">确定</button>
+        <button bindtap="onBack">返回</button>
+    </view>
+</view>

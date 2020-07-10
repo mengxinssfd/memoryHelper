@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "play": "/pages/project/playing/playing",
+    "q-selector": "/pages/project/manage/components/q-selector/q-selector"
+  }
+}

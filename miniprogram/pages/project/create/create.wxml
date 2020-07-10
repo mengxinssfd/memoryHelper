@@ -1,0 +1,128 @@
+<view class="pg-create">
+    <form catchsubmit="formSubmit" catchreset="formReset">
+        <block wx:if="{{!isImport}}">
+            <!--标题-->
+            <view class="block">
+                <view class="page-section">
+                    <view class="page-section-title">标题</view>
+                    <view class="weui-cells weui-cells_after-title">
+                        <view class="weui-cell weui-cell_input">
+                            <view class="weui-cell__bd" style="margin: 30rpx 0">
+                                <input
+                                        class="weui-input"
+                                        value="{{title}}"
+                                        bindinput="bindKeyInput"
+                                        data-type="title"
+                                        name="input"
+                                        placeholder="输入标题"/>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="page-section">
+                    <view class="page-section-title">描述</view>
+                    <view class="weui-cells weui-cells_after-title">
+                        <view class="weui-cell weui-cell_input">
+                            <view class="weui-cell__bd" style="margin: 30rpx 0">
+                                <textarea
+                                        class="text-area"
+                                        auto-height="true"
+                                        value="{{desc}}"
+                                        bindinput="bindKeyInput"
+                                        data-type="desc"
+                                        placeholder="输入描述(可不填)"/>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="block" wx:for="{{questionList}}" wx:key="index">
+                <!--问题-->
+                <view class="page-section">
+                    <view class="page-section-title">
+                        问题{{index+1}}
+                        <view
+                                wx:if="{{questionList.length>1}}"
+                                data-index="{{index}}"
+                                class="del"
+                                bindtap="questionListDelete"
+                        >
+                            x
+                        </view>
+                    </view>
+                    <view class="weui-cells weui-cells_after-title">
+                        <view class="weui-cell weui-cell_input">
+                            <view class="weui-cell__bd" style="margin: 30rpx 0">
+                                <input
+                                        class="weui-input"
+                                        value="{{item.question}}"
+                                        bindinput="bindKeyInput"
+                                        data-type="item.question"
+                                        data-index="{{index}}"
+                                        name="input"
+                                        placeholder="输入问题"/>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <!--答案-->
+                <view class="page-section">
+                    <view class="page-section-title">答案</view>
+                    <view class="weui-cells weui-cells_after-title">
+                        <view class="weui-cell weui-cell_input">
+                            <view class="weui-cell__bd" style="margin: 30rpx 0">
+                                <input
+                                        class="weui-input"
+                                        value="{{item.answer}}"
+                                        bindinput="bindKeyInput"
+                                        data-type="item.answer"
+                                        data-index="{{index}}"
+                                        name="input"
+                                        placeholder="输入答案"/>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <!--描述-->
+                <view class="page-section">
+                    <view class="page-section-title">描述</view>
+                    <view class="weui-cells weui-cells_after-title">
+                        <view class="weui-cell weui-cell_input">
+                            <view class="weui-cell__bd" style="margin: 30rpx 0">
+                                <textarea
+                                        class="text-area"
+                                        auto-height="true"
+                                        value="{{item.desc}}"
+                                        bindinput="bindKeyInput"
+                                        data-type="item.desc"
+                                        data-index="{{index}}"
+                                        name="input"
+                                        placeholder="输入描述(可不填)"/>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </block>
+        <block wx:else>
+            <view class="text-area-box">
+                <textarea class="text-area" bindinput="onInputEdit" value="{{memoryObjStr}}" auto-height="true" maxlength="{{-1}}"></textarea>
+            </view>
+        </block>
+        <!--按钮区域-->
+        <view class="btn-area">
+            <block wx:if="{{!isImport}}">
+                <button style="margin: 30rpx 0" bindtap="questionListAdd">新增问题</button>
+                <button style="margin: 30rpx 0" bindtap="memoryImport">编辑</button>
+                <button style="margin: 30rpx 0" type="primary" formType="submit">保存</button>
+            </block>
+            <block wx:else>
+                <button style="margin: 30rpx 0" bindtap="fileImport">从文件中导入</button>
+                <button style="margin: 30rpx 0" bindtap="memoryExport">导出到文件</button>
+                <button style="margin: 30rpx 0" type="primary" bindtap="confirm">确认</button>
+                <button style="margin: 30rpx 0" bindtap="back">返回</button>
+            </block>
+            <button style="margin: 30rpx 0" formType="reset">重置</button>
+        </view>
+    </form>
+</view>
