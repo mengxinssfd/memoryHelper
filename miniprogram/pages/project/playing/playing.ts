@@ -66,9 +66,6 @@ Component({
         onTapMask: function() {
             this.triggerEvent('close');
         },
-        onInputAnswer: function({detail}) {
-            this.setData({inputValue: detail.value});
-        },
         onTapConfirm: function() {
             let {inputValue, qList, currentQuestion, setting, isRightRemove} = this.data;
             const {answer, question} = currentQuestion;
@@ -102,10 +99,7 @@ Component({
                         title: "提示",
                         content: "是否重来？",
                         success: () => {
-                            this.setData({qList: this.data.questionList}, () => {
-                                console.log("ssssssss", this.data.qList, this.data.questionList);
-                                this.switchQuestion();
-                            });
+                            this.init();
                         },
                     });
                 }

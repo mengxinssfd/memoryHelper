@@ -6,14 +6,18 @@
            </view>-->
         <view class="question">问：{{setting.isReverse?currentQuestion.answer:currentQuestion.question}}</view>
         <input
-                value="{{inputValue}}"
+                model:value="{{inputValue}}"
                 class="weui-input answer"
                 placeholder="输入答案"
-                bindinput="onInputAnswer"/>
+        />
         <switch model:checked="{{isRightRemove}}">回答正确时去掉勾选</switch>
-        <button type="primary" bindtap="onTapConfirm">确定</button>
-        <button disabled="{{!setting.canJump || !qList.length}}" bindtap="onTapJump">跳过</button>
-        <button disabled="{{!setting.canShowAnswer}}" bindtap="onTapShowAnswer">{{isShowAnswer?"隐藏":"显示"}}答案</button>
+        <view class="jump-conf-box">
+            <button class="btn-jump" disabled="{{!setting.canJump || !qList.length}}" bindtap="onTapJump">跳过</button>
+            <button class="btn-confirm" type="primary" bindtap="onTapConfirm">确定</button>
+        </view>
+        <button class="btn-show-answer" disabled="{{!setting.canShowAnswer}}" bindtap="onTapShowAnswer">
+            {{isShowAnswer?"隐藏":"显示"}}答案
+        </button>
         <block wx:if="{{isShowAnswer}}">
             <view class="show-answer">{{setting.isReverse?currentQuestion.question:currentQuestion.answer}}</view>
             <view class="show-desc">{{currentQuestion.desc}}</view>

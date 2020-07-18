@@ -34,4 +34,19 @@
 .cp-play .content button {
   margin: 10px auto;
 }
+.cp-play .content .jump-conf-box {
+  display: flex;
+}
+.cp-play .content .btn-confirm,
+.cp-play .content .btn-jump {
+  flex: 1;
+}
+.cp-play .content .btn-jump {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+.cp-play .content .btn-confirm {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
 
