@@ -4,6 +4,7 @@
             questionList="{{questionList}}"
             setting="{{setting}}"
             bindclose="onTapStart"
+            bindfinish="onSelectorFinish"
     ></play>
     <q-selector
             wx:if="{{showSelect}}"
@@ -40,26 +41,31 @@
                         <radio checked="{{setting.isReverse}}"></radio>
                     </label>
                 </view>
-               <!-- <view class="item time">
-                    <label>单题答题时间(单位:秒)
+                <view class="item">
+                    <label bindtap="onTapSetting" data-key="ignoreUpLow">答案忽略大小写
+                        <radio checked="{{setting.ignoreUpLow}}"></radio>
                     </label>
-                    <input
-                            data-key="time"
-                            value="{{setting.time}}"
-                            type="number"
-                            bindinput="onInputSetting"
-                    />
                 </view>
-                <view class="item total-time">
-                    <label>答题总时间(单位:秒)
-                    </label>
-                    <input
-                            data-key="totalTime"
-                            value="{{setting.totalTime}}"
-                            type="number"
-                            bindinput="onInputSetting"
-                    />
-                </view>-->
+                <!-- <view class="item time">
+                     <label>单题答题时间(单位:秒)
+                     </label>
+                     <input
+                             data-key="time"
+                             value="{{setting.time}}"
+                             type="number"
+                             bindinput="onInputSetting"
+                     />
+                 </view>
+                 <view class="item total-time">
+                     <label>答题总时间(单位:秒)
+                     </label>
+                     <input
+                             data-key="totalTime"
+                             value="{{setting.totalTime}}"
+                             type="number"
+                             bindinput="onInputSetting"
+                     />
+                 </view>-->
             </view>
         </view>
     </block>

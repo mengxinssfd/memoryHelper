@@ -1,5 +1,5 @@
 // @ts-ignore
-import {QuestionListItem, randomNumber} from "../../../utils/util";
+import {PlaySetting, QuestionListItem, randomNumber} from "../../../utils/util";
 
 Component({
     properties: {
@@ -9,19 +9,34 @@ Component({
         },
         setting: {
             type: Object,
-            value: {},
+            value: <PlaySetting>{},
         },
     },
     data: {
         title: "",
-        originList: <QuestionListItem[]>[],
         qList: <QuestionListItem[]>[],
         currentQuestion: <QuestionListItem>{},
         inputValue: "",
         isShowAnswer: false,
+        // 回答正确时去掉勾选
+        isRightRemove: false,
     },
     lifetimes: {
         attached: function() {
+            this.init();
+        },
+        detached: function() {
+            // 在组件实例被从页面节点树移除时执行
+            this.onHide();
+        },
+    },
+    pageLifetimes: {
+        hide: function() {
+            // this.onHide()
+        },
+    },
+    methods: {
+        init: function(): boolean {
             const qList = this.data.questionList.filter(item => !item.isUnChecked);
             if (!qList.length) {
                 wx.showModal({
@@ -36,16 +51,18 @@ Component({
                         this.onTapMask();
                     },
                 });
-                return;
+                return false;
             }
-            this.setData({qList});
-            this.switchQuestion();
+            this.setData({qList}, () => {
+                this.switchQuestion();
+            });
+            return true;
         },
-        detached() {
-            // 在组件实例被从页面节点树移除时执行
+        // 勾选答对移除提交事件
+        onHide() {
+            // 应该判断是否有不一样的才触发finish事件,这里每次移除时都会触发
+            this.triggerEvent("finish", this.data.questionList);
         },
-    },
-    methods: {
         onTapMask: function() {
             this.triggerEvent('close');
         },
@@ -53,15 +70,44 @@ Component({
             this.setData({inputValue: detail.value});
         },
         onTapConfirm: function() {
-            const {inputValue, qList, currentQuestion, setting} = this.data;
+            let {inputValue, qList, currentQuestion, setting, isRightRemove} = this.data;
             const {answer, question} = currentQuestion;
-            const value = setting.isReverse ? question : answer;
+            let value = setting.isReverse ? question : answer;
+            // 忽略大小写
+            if (setting.ignoreUpLow) {
+                value = value.toLowerCase();
+                inputValue = inputValue.toLowerCase();
+            }
             if (value === inputValue) {
                 wx.showToast({icon: "success", title: "回答正确", duration: 700});
+                // 如果勾选答对移除的话
+                if (isRightRemove) {
+                    const {questionList} = this.data;
+                    const index = questionList.findIndex(item => item.question === question);
+                    currentQuestion.isUnChecked = true;
+                    questionList[index] = currentQuestion;
+                    /*this.setData({questionList}, () => {
+                        this.init();
+                    });
+                     */
+                    if (!this.init()) {
+                        return;
+                    }
+                }
                 if (qList.length) {
                     this.switchQuestion();
                 } else {
                     console.log("回答完毕");
+                    wx.showModal({
+                        title: "提示",
+                        content: "是否重来？",
+                        success: () => {
+                            this.setData({qList: this.data.questionList}, () => {
+                                console.log("ssssssss", this.data.qList, this.data.questionList);
+                                this.switchQuestion();
+                            });
+                        },
+                    });
                 }
             } else {
                 wx.showToast({icon: "none", title: "回答错误"});
@@ -71,7 +117,12 @@ Component({
         switchQuestion: function(pushItem?: QuestionListItem) {
             const {qList} = this.data;
             const randIndex = randomNumber(qList.length - 1);
+            if (!qList.length) {
+                wx.showToast({icon: "none", title: "没有可切换的问题"});
+                return;
+            }
             const cq = qList.splice(randIndex, 1)[0];
+            // 补上去
             if (pushItem) {
                 qList.push(pushItem);
             }

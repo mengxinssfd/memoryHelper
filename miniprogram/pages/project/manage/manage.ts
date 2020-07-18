@@ -29,6 +29,7 @@ Page({
             canJump: true,
             canShowAnswer: true,
             isReverse: false,
+            ignoreUpLow: false,
             // time: 10,
             // totalTime: 60,
         },

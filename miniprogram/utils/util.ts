@@ -110,4 +110,6 @@ export interface PlaySetting {
     isReverse: boolean,
     time?: number,
     totalTime?: number,
+    // 忽略大小写
+    ignoreUpLow: boolean,
 }

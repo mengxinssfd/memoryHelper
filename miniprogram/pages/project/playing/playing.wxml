@@ -10,8 +10,9 @@
                 class="weui-input answer"
                 placeholder="输入答案"
                 bindinput="onInputAnswer"/>
+        <switch model:checked="{{isRightRemove}}">回答正确时去掉勾选</switch>
         <button type="primary" bindtap="onTapConfirm">确定</button>
-        <button disabled="{{!setting.canJump}}" bindtap="onTapJump">跳过</button>
+        <button disabled="{{!setting.canJump || !qList.length}}" bindtap="onTapJump">跳过</button>
         <button disabled="{{!setting.canShowAnswer}}" bindtap="onTapShowAnswer">{{isShowAnswer?"隐藏":"显示"}}答案</button>
         <block wx:if="{{isShowAnswer}}">
             <view class="show-answer">{{setting.isReverse?currentQuestion.question:currentQuestion.answer}}</view>
