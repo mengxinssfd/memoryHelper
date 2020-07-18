@@ -34,10 +34,18 @@ Page({
         },
     },
     onLoad: function(options) {
-        console.log(options);
-        const memory: Memory = (wx.getStorageSync("memory") || [])[app.globalData.currentMemoryIndex];
+        console.log("manage onload", options);
+    },
+    onShow: function(): void {
+        console.log("on show start");
+        const index = app.globalData.currentMemoryIndex;
+        const store = wx.getStorageSync("memory");
+        const memory: Memory = (store || [])[index];
+        console.log("index", index);
+        console.log("store", store);
         this.setData(memory);
         wx.setNavigationBarTitle({title: memory.title});
+        console.log("on show end");
     },
     onTapUpdate: function() {
         wx.navigateTo({url: "/pages/project/create/create?type=update"});

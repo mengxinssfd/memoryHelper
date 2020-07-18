@@ -1,9 +1,13 @@
 <!--index.wxml-->
 <view class="pg-index">
     <view class="item" wx:for="{{memory}}" wx:key="index" data-index="{{index}}" bindtap="tapItem">
-        <text>{{index+1}}</text>
+        <text class="num">{{index+1}}</text>
         <view class="content">
             {{item.title}}
+        </view>
+        <view class="time">
+            <view wx:if="{{item.createTime}}">创建时间:{{item.createTime}}</view>
+            <view wx:if="{{item.updateTime}}">修改时间:{{item.updateTime}}</view>
         </view>
 
     </view>

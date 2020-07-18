@@ -1,4 +1,4 @@
-import {debounce, Memory, QuestionListItem} from "../../../utils/util";
+import {debounce, formatTime, getUUID, Memory, QuestionListItem} from "../../../utils/util";
 
 const app = getApp<IAppOption>();
 Page({
@@ -39,13 +39,13 @@ Page({
         const memory: Memory[] = wx.getStorageSync("memory") || [];
         const index = app.globalData.currentMemoryIndex;
 
-        let {questionList, title} = memory[index];
+        let {questionList} = memory[index];
         // 如果length大于5，则分批填充到data
         if (questionList.length > 5) {
             this.splitPushToData(questionList.slice(5));
             questionList = questionList.splice(0, 5);
         }
-        sd.call(this, {isUpdate: true, title: title, questionList});
+        sd.call(this, {isUpdate: true, ...memory[index], questionList});
 
     },
 
@@ -127,20 +127,33 @@ Page({
     },
     formSubmit: function(e: any) {
         console.log('form发生了submit事件，携带数据为：', e.detail.value);
-        const {title, questionList, isUpdate} = this.data;
+        const {title, questionList, isUpdate, desc} = this.data;
 
         if (!this.validate(title, questionList)) return;
 
         try {
             const key = "memory";
-            const memory = wx.getStorageSync(key) || [];
-            const obj = {title, questionList};
+            const memoryList: Memory[] = wx.getStorageSync(key) || [];
+            const now = formatTime(new Date());
+            const obj: Memory = {
+                title,
+                desc,
+                createTime: now,
+                questionList,
+                updateTime: now,
+                uuid: getUUID(8),
+            };
             if (isUpdate) {
-                memory[app.globalData.currentMemoryIndex] = obj;
+                const index = app.globalData.currentMemoryIndex;
+                const oldObj = memoryList[index];
+                obj.createTime = oldObj.createTime;
+                obj.uuid = oldObj.uuid;
+                memoryList[index] = obj;
             } else {
-                memory.push(obj);
+                obj.updateTime = "";
+                memoryList.push(obj);
             }
-            wx.setStorageSync(key, memory);
+            wx.setStorageSync(key, memoryList);
             wx.showToast({icon: "success", title: `${isUpdate ? "修改" : "保存"}成功`});
             setTimeout(() => {
                 wx.navigateBack();

@@ -11,8 +11,16 @@
 .pg-index .item:nth-child(odd) {
   background: rgba(0,0,0,0.1);
 }
+.pg-index .item .num {
+  color: #808080;
+}
 .pg-index .item .content {
   margin: 0 8px;
+  flex: 1;
+}
+.pg-index .item .time {
+  font-size: 0.6em;
+  color: #808080;
 }
 .pg-index .create {
   position: fixed;

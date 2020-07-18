@@ -1,5 +1,7 @@
 // index.ts
 // 获取应用实例
+import {Memory} from "../../utils/util";
+
 const app = getApp<IAppOption>();
 
 Page({
@@ -8,7 +10,7 @@ Page({
         userInfo: {},
         hasUserInfo: false,
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
-        memory: [],
+        memory: <Memory[]>[],
     },
     // 事件处理函数
     bindViewTap() {
@@ -74,8 +76,7 @@ Page({
         wx.navigateTo({url: "/pages/project/create/create"});
     },
     tapItem(e: any) {
-        console.log(e);
-        app.globalData.currentMemoryIndex = parseInt(e.target.dataset.index);
+        app.globalData.currentMemoryIndex = parseInt(e.currentTarget.dataset.index);
         wx.navigateTo({url: "/pages/project/manage/manage"});
     },
 });

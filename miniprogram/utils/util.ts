@@ -69,6 +69,24 @@ export function randomNumber(start?: any, end?: any, length?: any) {
     }
 }
 
+/**
+ * 生成不重复的字符串
+ * @param length
+ * @returns {string}
+ */
+export function getUUID(length: number): string {
+    const uuidArr: string[] = [];
+    const hexDigits = "0123456789abcdef";
+    for (let i = 0; i < length; i++) {
+        uuidArr[i] = hexDigits.substr(Math.random() * 0x10, 1);
+    }
+    uuidArr[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+    uuidArr[19] = hexDigits.substr(((uuidArr[19] as any) & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+
+    return uuidArr.join("");
+}
+
+
 export interface QuestionListItem {
     question: string,
     answer: string,
@@ -79,8 +97,11 @@ export interface QuestionListItem {
 
 export interface Memory {
     title: string,
-    desc: string,
-    questionList: QuestionListItem[]
+    desc?: string,
+    questionList: QuestionListItem[],
+    createTime: string,
+    updateTime: string,
+    uuid: string,
 }
 
 export interface PlaySetting {
