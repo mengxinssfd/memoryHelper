@@ -1,6 +1,7 @@
 <view class="cp-play">
     <view class="mask" bindtap="onTapMask"></view>
     <view class="content">
+        <view class="time">{{formattedTime}}</view>
         <view class="len">剩余：{{qList.length+1}}</view>
         <!--   <view class="time-area">
            </view>-->

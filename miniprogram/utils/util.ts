@@ -1,22 +1,68 @@
-export const formatTime = (date: Date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const hour = date.getHours();
-    const minute = date.getMinutes();
-    const second = date.getSeconds();
+export function formatTime(date: Date, format: string = "yyyy-MM-dd hh:mm:ss"): string {
+    let obj: any = {
+        "y+": date.getFullYear(),
+        "M+": date.getMonth() + 1,                    //月份
+        "d+": date.getDate(),                         //日
+        "h+": date.getHours(),                        //小时
+        "m+": date.getMinutes(),                      //分
+        "s+": date.getSeconds(),                      //秒
+    };
+    for (let k in obj) {
+        if (new RegExp("(" + k + ")").test(format)) {
+            const s1 = RegExp.$1;
+            let value = strPadStart(String(obj[k]), s1.length, "0");
+            value = value.substr(value.length - s1.length);
+            format = format.replace(s1, value);
+        }
+    }
+    return format;
+}
 
-    return (
-        [year, month, day].map(formatNumber).join('/') +
-        ' ' +
-        [hour, minute, second].map(formatNumber).join(':')
-    );
-};
+// 比较两个日期相差年天时分秒  用于倒计时等
+export function dateDiff(start: Date, end: Date, format: string = "y年d天 h时m分s秒"): string {
+    const seconds = ~~((end.getTime() - start.getTime()) / 1000);
+    const obj: { [k: string]: number } = {
+        "s+": seconds % 60,
+        "m+": ~~(seconds / 60) % 60,
+        "h+": ~~(seconds / (60 * 60)) % 24,
+        "d+": (function(): number {
+            const day = ~~(seconds / (60 * 60 * 24));
+            // 如果要显示年，则把天余年，否则全部显示天
+            // 默认一年等于365天
+            return /y+/.test(format) ? day % 365 : day;
+        })(),
+        // "M+": 0,
+        "y+": ~~(seconds / (60 * 60 * 24 * 365)),
+    };
 
-const formatNumber = (n: number) => {
-    const s = n.toString();
-    return s[1] ? s : '0' + s;
-};
+    for (let k in obj) {
+        if (new RegExp("(" + k + ")").test(format)) {
+            const s1 = RegExp.$1;
+            const v = obj[k];
+            let value = strPadStart(String(v), s1.length, "0");
+            // substring(start,end) start小于0的时候为0  substr(from,len)from小于0的时候为字符串的长度+from
+            value = value.substring(value.length - s1.length); //手动切割00:00 m:s "00".length - "s".length，因为strPadStart当字符串长度大于length的话不会切割
+            format = format.replace(s1, value);
+        }
+    }
+    return format;
+}
+
+/**
+ * 给长度不满足要求的字符串添加前缀 strFillPrefix
+ * @param target
+ * @param len
+ * @param fill
+ */
+export function strPadStart(target: string, len: number, fill: string): string {
+    if (target.length >= len) return target;
+    const lessLen = len - target.length;
+    while (fill.length < lessLen) {
+        fill += fill;
+    }
+    fill = fill.substr(0, lessLen);
+    return fill + target;
+}
 
 export function debounce(callback: (...args: any[]) => void, delay: number) {
     let timer: any = null;

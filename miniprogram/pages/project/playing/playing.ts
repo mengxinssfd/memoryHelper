@@ -1,5 +1,5 @@
 // @ts-ignore
-import {PlaySetting, QuestionListItem, randomNumber} from "../../../utils/util";
+import {dateDiff, PlaySetting, QuestionListItem, randomNumber} from "../../../utils/util";
 
 Component({
     properties: {
@@ -21,6 +21,9 @@ Component({
         // 回答正确时去掉勾选
         isRightRemove: false,
         isFocus: true,
+        startTime: 0,
+        formattedTime: "00:00:00",
+        timer: -1,
     },
     lifetimes: {
         attached: function() {
@@ -29,6 +32,7 @@ Component({
         detached: function() {
             // 在组件实例被从页面节点树移除时执行
             this.onHided();
+            this.timeEnd();
         },
     },
     pageLifetimes: {
@@ -54,10 +58,20 @@ Component({
                 });
                 return false;
             }
-            this.setData({qList}, () => {
+            this.setData({qList, startTime: Date.now(), timer: this.timeStart()}, () => {
                 if (isSwitchQuestion) this.switchQuestion();
             });
             return true;
+        },
+        // 计时开始
+        timeStart: function(): number {
+            return setInterval(() => {
+                this.setData({formattedTime: dateDiff(new Date(this.data.startTime), new Date(), "hh:mm:ss")});
+            }, 1000);
+        },
+        // 计时结束
+        timeEnd: function() {
+            clearInterval(this.data.timer);
         },
         // 勾选答对移除提交事件
         onHided() {
