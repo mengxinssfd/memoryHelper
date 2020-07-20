@@ -5,12 +5,24 @@
         <!--   <view class="time-area">
            </view>-->
         <view class="question">问：{{setting.isReverse?currentQuestion.answer:currentQuestion.question}}</view>
+        <!--只要focus={{isFocus}}的话，真机输入的时候placeholder就不会消失-->
         <input
+                auto-focus
                 model:value="{{inputValue}}"
-                class="weui-input answer"
+                class="weui-input input-answer"
                 placeholder="输入答案"
+                bindblur="bindBlur"
         />
-        <switch model:checked="{{isRightRemove}}">回答正确时去掉勾选</switch>
+        <view class="operate">
+            <label>当我答对时不再答这题
+                <checkbox model:checked="{{isRightRemove}}"/>
+            </label>
+            <checkbox-group bind:change="onMarkChange">
+                <label>标记
+                    <checkbox checked="{{currentQuestion.isMark}}"></checkbox>
+                </label>
+            </checkbox-group>
+        </view>
         <view class="jump-conf-box">
             <button class="btn-jump" disabled="{{!setting.canJump || !qList.length}}" bindtap="onTapJump">跳过</button>
             <button class="btn-confirm" type="primary" bindtap="onTapConfirm">确定</button>

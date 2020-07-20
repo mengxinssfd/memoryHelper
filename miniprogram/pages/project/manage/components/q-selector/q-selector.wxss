@@ -28,14 +28,28 @@
 .q-select .list-area .q-item text {
   font-size: 0.6em;
 }
-.q-select .list-area .q-item view {
+.q-select .list-area .q-item .content {
   flex: 1;
   margin: 0 8px;
   font-size: 0.8em;
+}
+.q-select .list-area .q-item .operate {
+  display: flex;
+  font-size: 0.4em;
+}
+.q-select .list-area .q-item .operate .mark {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .q-select .btn-area {
   flex: 1;
   width: 100%;
   padding-top: 10px;
+}
+.q-select .btn-area .count {
+  margin-bottom: 10px;
+  padding: 0 10px;
+  text-align: right;
 }
 

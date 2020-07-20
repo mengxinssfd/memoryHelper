@@ -14,14 +14,21 @@
                         描述：{{item.desc?item.desc:'无'}}
                     </view>
                 </view>
-                <checkbox checked="{{!item.isUnChecked}}"></checkbox>
+                <view class="operate">
+                    <checkbox checked="{{!item.isUnChecked}}"></checkbox>
+                    <view class="mark" wx:if="{{item.isMark}}">已标记</view>
+                </view>
             </view>
         </block>
     </view>
     <view class="btn-area">
-        <button data-type="all" bindtap="bindCheckAll">全选</button>
-        <button data-type="clear" bindtap="bindCheckAll">全不选</button>
-        <button bindtap="onOk">确定</button>
+        <view class="count">{{selectCount}}/{{qList.length}}</view>
+        <button data-type="all" bindtap="onTapCheckAll">全选</button>
+        <!--<button data-type="clear" bindtap="onTapCheckAll">全不选</button>-->
+        <button bindtap="onTapReverse">反选</button>
+        <button data-type="all" bindtap="onTapSelectMark">选中已标记</button>
+        <button data-type="clear" bindtap="onTapSelectMark">取消已标记</button>
+        <button type="primary" bindtap="onOk">确定</button>
         <button bindtap="onBack">返回</button>
     </view>
 </view>

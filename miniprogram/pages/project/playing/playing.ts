@@ -20,6 +20,7 @@ Component({
         isShowAnswer: false,
         // 回答正确时去掉勾选
         isRightRemove: false,
+        isFocus: true,
     },
     lifetimes: {
         attached: function() {
@@ -27,7 +28,7 @@ Component({
         },
         detached: function() {
             // 在组件实例被从页面节点树移除时执行
-            this.onHide();
+            this.onHided();
         },
     },
     pageLifetimes: {
@@ -36,8 +37,8 @@ Component({
         },
     },
     methods: {
-        init: function(): boolean {
-            const qList = this.data.questionList.filter(item => !item.isUnChecked);
+        init: function(isSwitchQuestion = true): boolean {
+            const qList = this.data.questionList.filter(item => !item.isUnChecked).map(i => ({...i}));
             if (!qList.length) {
                 wx.showModal({
                     title: '提示',
@@ -54,12 +55,12 @@ Component({
                 return false;
             }
             this.setData({qList}, () => {
-                this.switchQuestion();
+                if (isSwitchQuestion) this.switchQuestion();
             });
             return true;
         },
         // 勾选答对移除提交事件
-        onHide() {
+        onHided() {
             // 应该判断是否有不一样的才触发finish事件,这里每次移除时都会触发
             this.triggerEvent("finish", this.data.questionList);
         },
@@ -87,13 +88,15 @@ Component({
                         this.init();
                     });
                      */
-                    if (!this.init()) {
+                    if (!this.init(false)) {
                         return;
                     }
                 }
                 if (qList.length) {
+                    // 未全部答完
                     this.switchQuestion();
                 } else {
+                    // 已全部答完
                     console.log("回答完毕");
                     wx.showModal({
                         title: "提示",
@@ -104,6 +107,7 @@ Component({
                     });
                 }
             } else {
+                // 回答错误
                 wx.showToast({icon: "none", title: "回答错误"});
                 this.setData({inputValue: ""});
             }
@@ -120,7 +124,7 @@ Component({
             if (pushItem) {
                 qList.push(pushItem);
             }
-            this.setData({inputValue: "", currentQuestion: cq, qList, isShowAnswer: false});
+            this.setData({inputValue: "", isFocus: true, currentQuestion: cq, qList, isShowAnswer: false});
         },
         onTapJump: function() {
             const {currentQuestion} = this.data;
@@ -128,6 +132,18 @@ Component({
         },
         onTapShowAnswer: function() {
             this.setData({isShowAnswer: !this.data.isShowAnswer});
+        },
+        bindBlur: function() {
+            this.setData({isFocus: false});
+        },
+        onMarkChange: function(e) {
+            const value = !!e.detail.value.length;
+            const {questionList, currentQuestion} = this.data;
+            const {question} = currentQuestion;
+            const index = questionList.findIndex(item => item.question === question);
+            currentQuestion.isMark = value;
+            questionList[index] = currentQuestion;
+            console.log(questionList);
         },
     },
 
